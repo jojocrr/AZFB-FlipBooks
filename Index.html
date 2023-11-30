@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-friendly" content="true">
+    <title>Book</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./main.js" defer></script>
+    <script src="https://kit.fontawesome.com/b0f29e9bfe.js" crossorigin="anonymous"></script>
+</head>
+<style>
+       .container {
+        max-width: 10800px; /* Adjust the maximum width as needed */
+        margin: 0 auto; /* Center the container horizontally */
+        padding: 20px; /* Add padding to the container */
+    }
+   #container {
+    overflow: hidden;
+    position: relative;
+    width: 100%; /* Adjust the width to 100% to make it responsive */
+    height: 100vh; /* Use viewport height to make it fill the screen vertically */
+     /* Background color for the container */
+    padding: 20px; /* Add padding to the container */
+}
+  #pannable-content {
+    margin-left: -70px;
+    flex direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 1000px;
+    height: 1000px;
+    cursor: grab;
+  }
+
+  body {
+        font-family: sans-serif;
+        background-color: grey;
+        margin: 0;
+        padding: 0;
+    }
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: sans-serif;
+    background-color: grey;
+}
+
+/* Book */
+.book {
+    padding: 0%;
+    position: relative;
+    width: 350px;
+    height: 500px;
+    transition: transform 0.5s;
+    flex-wrap: wrap;
+    display: flex;
+    z-index: 5;
+    
+    
+}
+
+.paper {
+    
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    perspective: 1500px;
+
+}
+
+.front,
+.back {
+    border: 10px solid;
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-origin: left;
+    transition: transform 0.5s;
+}
+
+.front {
+
+    z-index: 2;
+    backface-visibility: hidden;
+    border-left: 3px solid powderblue;
+}
+
+.back {
+    z-index: 0;
+}
+
+.front-content,
+.back-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-content {
+    transform: rotateY(180deg)
+}
+
+/* Paper flip effect */
+.flipped .front,
+.flipped .back {
+    transform: rotateY(-180deg);
+}
+.button-container {
+    text-align: left; /* Centers inline and inline-block elements */
+}
+
+/* Controller Buttons */
+.prev-btn {
+           
+            background-color: #4CAF50; /* Green background */
+            border: none; /* No border */
+            color: black; /* Black text */
+            padding: 15px 32px; /* Padding inside the button */
+            text-align: center; /* Center the text */
+            text-decoration: none; /* No underline on the text */
+            display: inline-block; /* Make it inline */
+            font-size: 16px; /* Font size */
+            margin: 4px 2px; /* Margin around the button */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 5px; /* Rounded corners */
+            z-index: 1;
+            position: relative;
+           
+        }
+        .next-btn {
+            position: relative;
+            background-color: #4CAF50; /* Green background */
+            border: none; /* No border */
+            color: black; /* Black text */
+            padding: 15px 32px; /* Padding inside the button */
+            text-align: center; /* Center the text */
+            text-decoration: none; /* No underline on the text */
+            display: inline-block; /* Make it inline */
+            font-size: 16px; /* Font size */
+            margin: 4px 2px; /* Margin around the button */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 5px; /* Rounded corners */
+            z-index: 1;
+        }
+    
+        .arrow-button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+
+.zoom-control {
+    flex-grow: 1; /* Allow the slider to grow to fill available space */
+
+  position: relative; /* Fixed position relative to the viewport */      /* Center vertically */
+  transform: translateY(-50%); /* Shift it up by half its own height for true centering */
+  z-index: 1;
+}     /* Place it above other elements */
+
+
+/* Paper stack order */
+#p1 {
+    z-index: 5;
+}
+
+#p2 {
+    z-index: 4;
+}
+
+#p3 {
+    z-index: 3;
+} 
+#p4 {
+    z-index: 2;
+}
+#p5 {
+    z-index: 1; 
+}
+
+</style>
+
+<body>
+    <header>
+        <!-- Navigation, logo, and other header content -->
+    </header>
+    <div>
+    <div class="button-container">
+        <button class="prev-btn">←</button> <!-- Left Arrow Button -->
+        <button class="next-btn">→</button> <!-- Right Arrow Button -->
+    <div>
+        <br>
+    </div>
+    <div class="zoom-control">
+        <label for="zoom-slider">Zoom:</label>
+        <input type="range" id="zoom-slider" min="50" max="600" value="100">
+    </div>
+    <header>
+        <!-- Navigation, logo, and other header content -->
+    </header>
+    <Main>
+</div>
+    <div id="pannable-container">
+        <div id="pannable-content">
+            <div class="container">
+    <!-- Book -->
+    <div id="book" class="book">
+        <!-- Paper 1 -->
+        <div id="p1" class="paper">
+            <div class="front">
+                <div id="f1" class="front-content">
+                    <img src="https://i.ibb.co/CbHm5rS/CHOICES-Fall-2023-1.png" alt="CHOICES-Fall-2023-1" style="height:95%; width: 100%">
+                </div>
+            </div>
+            <div class="back">
+                <div id="b1" class="back-content">
+                    <img src="https://i.ibb.co/t23wD6K/CHOICES-Fall-2023-2.png" alt="CHOICES-Fall-2023-2" style="height:95%; width: 100%">
+                </div>
+            </div>
+        </div>
+        <!-- Paper 2 -->
+        <div id="p2" class="paper">
+            <div class="front">
+                <div id="f2" class="front-content">
+                    <img src="https://i.ibb.co/34fW2Fr/CHOICES-Publication-Fall-2023-Final-3.png" alt="CHOICES-Publication-Fall-2023-Final-3" style="height:95%; width: 100%">
+                </div>
+            </div>
+            <div class="back">
+                <div id="b2" class="back-content">
+                    <img src="https://i.ibb.co/w6KhB7V/CHOICES-Publication-Fall-2023-Final-4.png" alt="CHOICES-Publication-Fall-2023-Final-4" style="height:95%;width:100%">
+                </div>
+            </div>
+        </div>
+        <!-- Paper 3 -->
+        <div id="p3" class="paper">
+            <div class="front">
+                <div id="f3" class="front-content">
+                    <img src="https://i.ibb.co/KjFBhzT/CHOICES-Publication-Fall-2023-Final-5.png" alt="CHOICES-Publication-Fall-2023-Final-5" style="height:95%;width:100%">
+                </div>
+            </div>
+            <div class="back">
+                <div id="b3" class="back-content">
+                    <img src="https://i.ibb.co/HYNg3Q6/Page-6.png" alt="CHOICES-Publication-Fall-2023-Final-4" style="height:95%;width:100%">
+                </div>
+            </div>
+        </div>
+        <!-- Paper 4 -->
+        <div id="p4" class="paper">
+            <div class="front">
+                <div id="f4" class="front-content">
+                    <img src="https://i.ibb.co/0QFtYG2/Page-7.png" alt="CHOICES-Publication-Fall-2023-Final-4" style="height:95%;width:100%">
+                </div>
+            </div>
+            <div class="back">
+                <div id="b4" class="back-content">
+                    <img src="https://i.ibb.co/M76MRZK/Page-8.png" alt="CHOICES-Publication-Fall-2023-Final-4" style="height:95%;width:100%">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</Main>
+
+<script>
+    
+// References to DOM Elements
+const prevBtn = document.querySelector(".prev-btn");
+const nextBtn = document.querySelector(".next-btn");
+const book = document.querySelector("#book");
+const container = document.getElementById('container');
+
+
+
+const paper1 = document.querySelector("#p1");
+const paper2 = document.querySelector("#p2");
+const paper3 = document.querySelector("#p3");
+const paper4 = document.querySelector("#p4");
+const paper5 = document.querySelector("#p5");
+const zoomSlider = document.querySelector("#zoom-slider");
+
+const pannableContent = document.getElementById('pannable-content');
+        let zoomFactor = 1;
+        let panX = 0;
+        let panY = 0;
+
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+
+            // Mouse events for dynamic panning
+            pannableContent.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - panX;
+            startY = e.clientY - panY;
+            pannableContent.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            pannableContent.style.cursor = 'grab';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            panX = e.clientX - startX;
+            panY = e.clientY - startY;
+
+            pannableContent.style.transform = `scale(${zoomFactor}) translate(${panX}px, ${panY}px)`;
+        });
+
+
+// Variables for zoom
+let zoomLevel = 1;
+
+
+// Add event listener for zoom control
+zoomSlider.addEventListener('input', handleZoom);
+
+function handleZoom() {
+    zoomLevel = zoomSlider.value / 100;
+    updateZoom();
+}
+
+function updateZoom() {
+    book.style.transform = `scale(${zoomLevel})`;
+}
+
+// Update the zoom initially
+updateZoom();
+
+
+// Event Listener
+prevBtn.addEventListener("click", goPrevPage);
+nextBtn.addEventListener("click", goNextPage);
+
+// Business Logic
+let currentLocation = 1;
+let numOfPapers = 5;
+let maxLocation = numOfPapers * 2;
+
+function openBook() {
+    book.style.transform = "translateX(50%)";
+    prevBtn.style.transform = "translateX(-180px)";
+    nextBtn.style.transform = "translateX(180px)";
+}
+
+function zoomBook() {
+    const scaleValue = zoomSlider.value / 100;
+    book.style.transform = `scale(${scaleValue})`;
+}
+
+function closeBook(isAtBeginning) {
+    if (isAtBeginning) {
+        book.style.transform = "translateX(0%)";
+    } else {
+        book.style.transform = "translateX(100%)";
+    }
+    
+    prevBtn.style.transform = "translateX(0px)";
+    nextBtn.style.transform = "translateX(0px)";
+}
+
+function goNextPage() {
+    if (currentLocation < maxLocation) {
+        switch (currentLocation) {
+            case 1:
+                openBook();
+                paper1.classList.add("flipped");
+                paper1.style.zIndex = 1;
+                break;
+            case 2:
+                paper2.classList.add("flipped");
+                paper2.style.zIndex = 2;
+                break;
+            case 3:
+                paper3.classList.add("flipped");
+                paper3.style.zIndex = 3;
+                break;
+            case 4:
+                paper4.classList.add("flipped");
+                paper4.style.zIndex = 4;
+                closeBook(false);
+                break;
+            case 5:
+                paper5.classList.add("flipped");
+                paper5.style.zIndex = 5;
+                closeBook(false);
+                break;
+            default:
+                throw new Error("unknown state");
+        }
+        currentLocation++;
+    }
+}
+
+function goPrevPage() {
+    if (currentLocation > 1) {
+        switch (currentLocation) {
+            case 2:
+                closeBook(true);
+                paper1.classList.remove("flipped");
+                paper1.style.zIndex = 5;
+                break;
+            case 3:
+                paper2.classList.remove("flipped");
+                paper2.style.zIndex = 4;
+                break;
+            case 4:
+                paper3.classList.remove("flipped");
+                paper3.style.zIndex = 3;
+                break;
+            case 5:
+                paper4.classList.remove("flipped");
+                paper4.style.zIndex = 2;
+                break;
+            case 6:
+                openBook();
+                paper5.classList.remove("flipped");
+                paper5.style.zIndex = 1;
+                break;
+            default:
+                throw new Error("unknown state");
+        }
+
+        currentLocation--;
+    }
+}
+
+    // Apply the transformations to the pannable content
+    pannableContent.style.transform = `scale(${zoomFactor}) translate(${panX}px, ${panY}px)`;
+
+</script>
+</html>
+
+
